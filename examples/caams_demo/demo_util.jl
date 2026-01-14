@@ -144,8 +144,12 @@ function solve_gk_problem!(env::SimEnvironment)::Bool
     initial_positions = reduce(hcat, initial_positions)'
     tspan = [0.0, sum(x -> x.length, env.leader_path)]
 
-    solution, composites =
-        simulate_closed_loop_gatekeeper(multi_gk_instance, initial_positions, tspan)
+    solution, composites = simulate_closed_loop_gatekeeper(
+        multi_gk_instance,
+        initial_positions,
+        tspan;
+        collect_composites = true,
+    )
 
     if (isnothing(solution))
         return false
